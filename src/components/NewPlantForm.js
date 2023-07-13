@@ -1,6 +1,7 @@
 import React from "react";
 
 function NewPlantForm({ getNewPlant }) {
+  // this is our object that will hold our new plant data to be sent to the database
   let newPlant = {
     id: Math.floor(Math.random() * 1000000),
     name: "",
@@ -9,12 +10,14 @@ function NewPlantForm({ getNewPlant }) {
     in_stock: true,
   };
 
+  // this function will handle the change of the input fields and allows us to assign our values to the newPlant object dynamically which will negate the slow change of state changes. This is also a faster way to assign the values to the newPlant object using name selector that we can get values from the input fields
   function handleChange(e) {
     const key = e.target.name;
     const value = e.target.value;
     newPlant[key] = value;
   }
 
+  // this function will handle the submit of the form that will be sent to the database using a POST request
   function handleSubmit(e) {
     e.preventDefault();
     getNewPlant(newPlant);

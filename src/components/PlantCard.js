@@ -5,10 +5,11 @@ function PlantCard({ plant, onDeletePlant }) {
   const [editPriceState, setEditPriceState] = useState(false);
   const [editNumState, setEditNumState] = useState(0);
 
+  // this function will set the stock state to false
   function changeStock() {
     setStock(false);
   }
-
+  // this function is called when the user clicks on the delete button which will delete the plant from the database
   const handleDelete = () => {
     fetch(`http://localhost:6001/plants/${plant.id}`, {
       method: "DELETE",
@@ -16,9 +17,13 @@ function PlantCard({ plant, onDeletePlant }) {
       .then((resp) => resp.json())
       .then(onDeletePlant(plant.id));
   };
+
+  // this is the object that will be passed to the database
   let editPlant = {
     price: "",
   };
+
+  // this function is called when the user clicks on the edit button which will edit the plant in the database
   function handleChange(e) {
     const updatedPrice = Number(e.target.value);
     // num = updatedPrice;
@@ -26,10 +31,10 @@ function PlantCard({ plant, onDeletePlant }) {
     console.log(editPlant.price);
   }
 
+  // this function is called when the user clicks submit which will send a PATCH request to edit the plant in the database
   function handleSubmit(e) {
     e.preventDefault();
-    // console.log(e.target.value);
-    
+
     fetch(`http://localhost:6001/plants/${plant.id}`, {
       method: "PATCH",
       headers: {
@@ -40,11 +45,12 @@ function PlantCard({ plant, onDeletePlant }) {
     })
       .then((res) => res.json())
       .then(setEditNumState(editPlant.price))
-      .then(setEditPriceState(true))
-      
+      .then(setEditPriceState(true));
+
     console.log(editPriceState);
   }
-  // let num;
+
+  // below we have some ternary logic to determine if the plant is in stock or not or price has changed and will the displayed data accordingly
   return (
     <li className="card">
       <img src={plant.image} alt={"plant name"} />
